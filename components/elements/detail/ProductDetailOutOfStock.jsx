@@ -42,8 +42,8 @@ const ProductDetailOutOfStock = ({ product }) => (
                         <li> 3/4″ Dome Tweeters: 2X and 4″ Woofer: 1X</li>
                     </ul>
                 </div>
-                {/*<ModuleProductDetailDescription product={product} />*/}
-                {/*<ModuleDetailShoppingActions product={product} />*/}
+                <ModuleProductDetailDescription product={product} />
+                 <ModuleDetailShoppingActions product={product} />
                 <ModuleProductDetailSpecification />
                 <ModuleProductDetailSharing />
                 <ModuleDetailActionsMobile />

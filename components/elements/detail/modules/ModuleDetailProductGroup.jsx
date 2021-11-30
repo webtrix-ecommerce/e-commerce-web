@@ -20,7 +20,7 @@ const ModuleDetailProductGroup = () => {
                                 </a>
                             </td>
                             <td>
-                                <p>$275.50</p>
+                                <p>₹275.50</p>
                                 <p>
                                     Status:
                                     <span className="ps-tag--out-stock">
@@ -43,7 +43,7 @@ const ModuleDetailProductGroup = () => {
                                 </a>
                             </td>
                             <td>
-                                <p> $320.54</p>
+                                <p> ₹320.54</p>
                                 <p>
                                     Status:
                                     <span className="ps-tag--out-stock">
@@ -66,7 +66,7 @@ const ModuleDetailProductGroup = () => {
                                 </a>
                             </td>
                             <td>
-                                <p>$85.62</p>
+                                <p>₹85.62</p>
                                 <p>
                                     Status:
                                     <span className="ps-tag--out-stock">

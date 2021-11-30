@@ -67,7 +67,6 @@ class NavigationList extends Component {
             cartDrawer,
             categoriesDrawer,
         } = this.state;
-
         return (
             <div className="navigation--list">
                 <Drawer
@@ -167,14 +166,14 @@ class NavigationList extends Component {
                         <i className="icon-list4"></i>
                         <span> Categories</span>
                     </a>
-                    <a
+                    {/* <a
                         className={`navigation__item ${
                             searchDrawer === true ? 'active' : ''
                         }`}
                         onClick={this.handleShowSearchDrawer}>
                         <i className="icon-magnifier"></i>
                         <span> Search</span>
-                    </a>
+                    </a> */}
                     <a
                         className={`navigation__item ${
                             cartDrawer === true ? 'active' : ''

@@ -25,7 +25,7 @@ const VendorFaqs = () => (
                                 payment processing fee based on their fee structure.
                             </p>
                             <p>
-                                Listing fees are billed for $0.20 USD, so if your bank’s currency is
+                                Listing fees are billed for ₹0.20 USD, so if your bank’s currency is
                                 not USD, the amount may differ based on changes in the exchange
                                 rate.
                             </p>
@@ -59,7 +59,7 @@ const VendorFaqs = () => (
                                 payment processing fee based on their fee structure.
                             </p>
                             <p>
-                                Listing fees are billed for $0.20 USD, so if your bank’s currency is
+                                Listing fees are billed for ₹0.20 USD, so if your bank’s currency is
                                 not USD, the amount may differ based on changes in the exchange
                                 rate.
                             </p>

@@ -122,9 +122,9 @@ const Compare = ({ ecomerce }) => {
                                                     return (
                                                         <td key={product.id}>
                                                             <h4 className="price sale">
-                                                                ${product.price}
+                                                                ₹{product.price}
                                                                 <del>
-                                                                    $
+                                                                    ₹
                                                                     {
                                                                         product.salePrice
                                                                     }
@@ -136,7 +136,7 @@ const Compare = ({ ecomerce }) => {
                                                     return (
                                                         <td key={product.id}>
                                                             <h4 className="price">
-                                                                ${' '}
+                                                                ₹{' '}
                                                                 {product.price}
                                                             </h4>
                                                         </td>

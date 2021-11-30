@@ -19,10 +19,10 @@ class AccountQuickLinks extends Component {
                 text: 'Account Information',
                 url: '/account/user-information',
             },
-            {
-                text: 'Notifications',
-                url: '/account/notifications',
-            },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            // },
             {
                 text: 'Invoices',
                 url: '/account/invoices',
@@ -31,14 +31,14 @@ class AccountQuickLinks extends Component {
                 text: 'Address',
                 url: '/account/addresses',
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-            },
-            {
-                text: 'Wishlist',
-                url: '/account/wishlist',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            // },
+            // {
+            //     text: 'Wishlist',
+            //     url: '/account/wishlist',
+            // },
         ];
         const menu = (
             <Menu>

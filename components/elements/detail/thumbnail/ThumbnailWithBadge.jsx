@@ -161,7 +161,7 @@ const ThumbnailWithBadge = ({ product, vertical = true }) => {
                     </Slider>
                     <div className="ps-product__badge">
                         <span>
-                            Save <br /> $280.00
+                            Save <br /> ₹280.00
                         </span>
                     </div>
                 </div>

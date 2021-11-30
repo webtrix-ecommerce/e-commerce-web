@@ -14,13 +14,13 @@ class RecentViewedProducts extends Component {
                 url: '/account/user-information',
                 icon: 'icon-user',
             },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            //     icon: 'icon-alarm-ringing',
+            // },
             {
-                text: 'Notifications',
-                url: '/account/notifications',
-                icon: 'icon-alarm-ringing',
-            },
-            {
-                text: 'Invoices',
+                text: 'Order History',
                 url: '/account/invoices',
                 icon: 'icon-papers',
             },
@@ -29,17 +29,17 @@ class RecentViewedProducts extends Component {
                 url: '/account/addresses',
                 icon: 'icon-map-marker',
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-                active: true,
-                icon: 'icon-store',
-            },
-            {
-                text: 'Wishlist',
-                url: '/account/wishlist',
-                icon: 'icon-heart',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            //     active: true,
+            //     icon: 'icon-store',
+            // },
+            // {
+            //     text: 'Wishlist',
+            //     url: '/account/wishlist',
+            //     icon: 'icon-heart',
+            // },
         ];
         return (
             <section className="ps-my-account ps-page--account">
@@ -52,7 +52,7 @@ class RecentViewedProducts extends Component {
                                         <img src="/static/img/users/3.jpg" />
                                         <figure>
                                             <figcaption>Hello</figcaption>
-                                            <p>username@gmail.com</p>
+                                            <p>{user?user.username:''}</p>
                                         </figure>
                                     </div>
                                     <div className="ps-widget__content">

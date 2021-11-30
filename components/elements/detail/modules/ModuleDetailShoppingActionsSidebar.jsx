@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { connect } from 'react-redux';
 import useEcomerce from '~/hooks/useEcomerce';
 import { Modal } from 'antd';
 
 const ModuleDetailShoppingActionsSidebar = ({ ecomerce, product }) => {
     const [quantity, setQuantity] = useState(1);
+    const [user, setUser] = useState([]);
     const { addItem } = useEcomerce();
-
+    useEffect(() => {
+        let data = JSON.parse(sessionStorage.getItem('currentUser'));
+                setUser(data);
+    }, [])
     function handleAddItemToCart(e) {
         e.preventDefault();
-        addItem(
-            { id: product.id, quantity: quantity },
-            ecomerce.cartItems,
-            'cart'
-        );
+        e.preventDefault();
+        console.log(user);
+        if (user) {
+            addItem({ productId: product.id, quantity: 1,userId:user }, ecomerce.cartItems, 'cart');
+        } else {
+           return Router.push('/account/login')
+        }
     }
 
     function handleAddItemToCompare(e) {

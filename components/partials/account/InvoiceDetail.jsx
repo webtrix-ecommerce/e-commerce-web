@@ -17,13 +17,13 @@ class InvoiceDetail extends Component {
                 url: '/account/user-information',
                 icon: 'icon-user',
             },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            //     icon: 'icon-alarm-ringing',
+            // },
             {
-                text: 'Notifications',
-                url: '/account/notifications',
-                icon: 'icon-alarm-ringing',
-            },
-            {
-                text: 'Invoices',
+                text: 'Order History',
                 url: '/account/invoices',
                 icon: 'icon-papers',
                 active: true,
@@ -33,16 +33,16 @@ class InvoiceDetail extends Component {
                 url: '/account/addresses',
                 icon: 'icon-papers',
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-                icon: 'icon-papers',
-            },
-            {
-                text: 'Wishlist',
-                url: '/account/wishlist',
-                icon: 'icon-papers',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            //     icon: 'icon-papers',
+            // },
+            // {
+            //     text: 'Wishlist',
+            //     url: '/account/wishlist',
+            //     icon: 'icon-papers',
+            // },
         ];
         const invoiceProducts = [
             {
@@ -170,7 +170,7 @@ class InvoiceDetail extends Component {
                                                                     />
                                                                 </td>
                                                                 <td className="price">
-                                                                    $
+                                                                    
                                                                     {
                                                                         product.price
                                                                     }

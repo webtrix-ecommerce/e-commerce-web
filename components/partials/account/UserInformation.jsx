@@ -2,14 +2,21 @@ import React, { Component, useEffect, useState } from 'react';
 import Link from 'next/link';
 import FormChangeUserInformation from '~/components/shared/FormChangeUserInformation';
 import { getUser } from '../../api/url-helper'
-import axios from "axios";
+import { logOut } from '~/store/auth/action';
+import router, { Router } from 'next/router';
+import { connect, useDispatch } from 'react-redux';
+
 const UserInformation = () => {
     const [user, setUser] = useState([]);
+    const dispatch = useDispatch();
     useEffect(() => {
 
         let data = JSON.parse(sessionStorage.getItem('token'))
         console.log(data);
-
+        if (data===null || data===undefined) {
+            console.log("null");
+            return router.push('/account/login')
+        }
         const config = {
             headers: {
                 Authorization: `Bearer ${data}`
@@ -21,7 +28,13 @@ const UserInformation = () => {
             }
         )
 
-    }, [])
+    }, []);
+    const handleLogout = (e) => {
+        e.preventDefault();
+        sessionStorage.clear();
+        dispatch(logOut());
+        router.push("/");
+    };
     console.log(user);
     const accountLinks = [
         {
@@ -30,13 +43,13 @@ const UserInformation = () => {
             icon: 'icon-user',
             active: true,
         },
+        // {
+        //     text: 'Notifications',
+        //     url: '/account/notifications',
+        //     icon: 'icon-alarm-ringing',
+        // },
         {
-            text: 'Notifications',
-            url: '/account/notifications',
-            icon: 'icon-alarm-ringing',
-        },
-        {
-            text: 'Invoices',
+            text: 'Order History',
             url: '/account/invoices',
             icon: 'icon-papers',
         },
@@ -45,16 +58,16 @@ const UserInformation = () => {
             url: '/account/addresses',
             icon: 'icon-map-marker',
         },
-        {
-            text: 'Recent Viewed Product',
-            url: '/account/recent-viewed-product',
-            icon: 'icon-store',
-        },
-        {
-            text: 'Wishlist',
-            url: '/account/wishlist',
-            icon: 'icon-heart',
-        },
+        // {
+        //     text: 'Recent Viewed Product',
+        //     url: '/account/recent-viewed-product',
+        //     icon: 'icon-store',
+        // },
+        // {
+        //     text: 'Wishlist',
+        //     url: '/account/wishlist',
+        //     icon: 'icon-heart',
+        // },
     ];
 
     //Views
@@ -81,7 +94,7 @@ const UserInformation = () => {
                                     <img src="/static/img/users/3.jpg" />
                                     <figure>
                                         <figcaption >Hello</figcaption>
-                                        <p>{user.username}</p>
+                                        <p>{user?user.username:''}</p>
                                     </figure>
                                 </div>
                                 <div className="ps-widget__content">
@@ -104,12 +117,11 @@ const UserInformation = () => {
                                             </li>
                                         ))}
                                         <li>
-                                            <Link href="/">
-                                                <a>
-                                                    <i className="icon-power-switch"></i>
-                                                    Logout
-                                                </a>
-                                            </Link>
+                                            {/* <Link href="/"> */}
+                                            <a onClick={(e) => handleLogout(e)}>
+                                                Logout
+                                            </a>
+                                            {/* </Link> */}
                                         </li>
                                     </ul>
                                 </div>

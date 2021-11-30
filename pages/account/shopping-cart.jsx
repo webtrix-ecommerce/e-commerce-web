@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
 import PageContainer from '~/components/layouts/PageContainer';
 import FooterDefault from '~/components/shared/footers/FooterDefault';
@@ -8,16 +8,24 @@ import useEcomerce from '~/hooks/useEcomerce';
 import ModuleEcomerceCartItems from '~/components/ecomerce/modules/ModuleEcomerceCartItems';
 import Link from 'next/link';
 import ModuleCartSummary from '~/components/ecomerce/modules/ModuleCartSummary';
+import ProductRepository from '~/repositories/ProductRepository';
 
 const ShoppingCartScreen = ({ ecomerce }) => {
-    const { products, getProducts } = useEcomerce();
+    // const { products, getProducts } = useEcomerce();
+    const [products, setProducts] = useState([]);
 
+    // useEffect(() => {
+    //     if (ecomerce.cartItems) {
+    //         getProducts(ecomerce.cartItems, 'cart');
+    //     }
+    // }, [ecomerce]);
+    const getproducts = async () => {
+        const Products = await ProductRepository.getProductsByCartId();
+        setProducts(Products);
+    }
     useEffect(() => {
-        if (ecomerce.cartItems) {
-            getProducts(ecomerce.cartItems, 'cart');
-        }
+        getproducts();
     }, [ecomerce]);
-
     const breadCrumb = [
         {
             text: 'Home',
@@ -37,7 +45,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
                     <div className="ps-section__content">
                         <ModuleEcomerceCartItems cartItems={products} />
                         <div className="ps-section__cart-actions">
-                            <Link href="/shop">
+                            <Link href="/">
                                 <a className="ps-btn">Back to Shop</a>
                             </Link>
                         </div>

@@ -17,7 +17,7 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
     const handleOpenLightbox = (e, imageIndex) => {
         e.preventDefault();
         setPhotoIndex(imageIndex);
-        setIsOpen(true);
+        // setIsOpen(true);
     };
 
     useEffect(() => {
@@ -82,9 +82,9 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
         <img src={productImages} alt={productImages} />
     </div>
     galleryImagesView = <div className="item">
-        <a href="#" onClick={(e) => handleOpenLightbox(e, )}>
+        {/* <a  onClick={(e) => handleOpenLightbox(e, )}> */}
             <img src={productImages} alt={productImages} style={{height:"325px"}}/>
-        </a>
+        {/* </a> */}
     </div>
 
 
@@ -103,37 +103,38 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
     //     ));
     // }
     if (vertical) {
-        variantCarouselView = (
-            <Slider
-                asNavFor={gallery}
-                ref={(slider) => (variantCarousel.current = slider)}
-                swipeToSlide={true}
-                arrows={false}
-                slidesToShow={3}
-                vertical={true}
-                infinite={true}
-                focusOnSelect={true}
-                {...variantSetting}
-                className="ps-product__variants">
-                {imagesView}
-            </Slider>
-        );
-    } else {
-        variantCarouselView = (
-            <Slider
-                asNavFor={gallery}
-                ref={(slider) => (variantCarousel.current = slider)}
-                swipeToSlide={true}
-                arrows={false}
-                slidesToShow={6}
-                vertical={false}
-                centered={true}
-                infinite={false}
-                focusOnSelect={true}
-                className="ps-product__variants">
-                {imagesView}
-            </Slider>
-        );
+        // variantCarouselView = (
+        //     <Slider
+        //         asNavFor={gallery}
+        //         ref={(slider) => (variantCarousel.current = slider)}
+        //         swipeToSlide={true}
+        //         arrows={false}
+        //         slidesToShow={3}
+        //         vertical={true}
+        //         infinite={true}
+        //         focusOnSelect={true}
+        //         {...variantSetting}
+        //         className="ps-product__variants">
+        //         {imagesView}
+        //     </Slider>
+        // );
+    // } else 
+    // {
+    //     variantCarouselView = (
+    //         <Slider
+    //             asNavFor={gallery}
+    //             ref={(slider) => (variantCarousel.current = slider)}
+    //             swipeToSlide={true}
+    //             arrows={false}
+    //             slidesToShow={6}
+    //             vertical={false}
+    //             centered={true}
+    //             infinite={false}
+    //             focusOnSelect={true}
+    //             className="ps-product__variants">
+    //             {imagesView}
+    //         </Slider>
+    //     );
     }
     if (isOpen) {
         lightboxView = (

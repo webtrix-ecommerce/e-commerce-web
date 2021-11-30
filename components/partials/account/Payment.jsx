@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ModulePaymentOrderSummary from '~/components/partials/account/modules/ModulePaymentOrderSummary';
 import ModulePaymentShipping from '~/components/ecomerce/modules/ModulePaymentShipping';
 import ModulePaymentMethods from '~/components/ecomerce/modules/ModulePaymentMethods';
+import router from 'next/router';
 
 const Payment = () => {
     return (
@@ -20,12 +21,11 @@ const Payment = () => {
                                 <ModulePaymentShipping />
                                 <ModulePaymentMethods />
                                 <div className="ps-block__footer">
-                                    <Link href="/account/shipping">
-                                        <a>
-                                            <i className="icon-arrow-left mr-2"></i>
-                                            Return to shipping
+                                    {/* <Link href="/account/shipping"> */}
+                                        <a className="ps-btn" onClick={()=>router.push('/account/shipping')}>
+                                            <i className="icon-arrow-left mr-2 "></i>Return to shipping
                                         </a>
-                                    </Link>
+                                    {/* </Link> */}
                                 </div>
                             </div>
                         </div>

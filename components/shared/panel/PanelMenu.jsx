@@ -33,13 +33,46 @@ class PanelMenu extends Component {
     };
 
     render() {
+        const accountLinks = [
+            {
+                text: 'Account Information',
+                url: '/account/user-information',
+            },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            // },
+            {
+                text: 'Order History',
+                url: '/account/invoices',
+            },
+            {
+                text: 'Address',
+                url: '/account/addresses',
+            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            // },
+            // {
+            //     text: 'Wishlist',
+            //     url: '/account/wishlist',
+            // },
+        ];
         return (
             <Menu
                 mode="inline"
                 openKeys={this.state.openKeys}
                 onOpenChange={this.onOpenChange}
                 className="menu--mobile-2">
-                {menu_data.menuPrimary.menu_1.map((item) => {
+                  {accountLinks.map((subItem) => (
+                                    <Menu.Item key={subItem.text}>
+                                        <Link href={subItem.url}>
+                                            <a>{subItem.text}</a>
+                                        </Link>
+                                    </Menu.Item>
+                                ))}
+                {/* {menu_data.menuPrimary.menu_1.map((item) => {
                     if (item.subMenu) {
                         return (
                             <SubMenu
@@ -104,7 +137,7 @@ class PanelMenu extends Component {
                             </Menu.Item>
                         );
                     }
-                })}
+                })} */}
             </Menu>
         );
     }

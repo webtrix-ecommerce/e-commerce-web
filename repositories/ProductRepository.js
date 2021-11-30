@@ -1,12 +1,16 @@
 import Repository, { baseUrl, serializeQuery } from './Repository';
-import Axios from 'axios';
+import { getUserCart,getProductList } from '~/components/api/url-helper';
+import { getCatrgyDetails,pagination ,getCatrgryfilter} from '~/components/api/url-helper';
+
 class ProductRepository {
-    async getRecords(params) {
-        const reponse = await Repository.get(
-            `${baseUrl}/products?${serializeQuery(params)}`
-        )
+     getRecords(params) {
+        const reponse =  getProductList()
+        //  Repository.get(
+        //     `${baseUrl}/products?${serializeQuery(params)}`
+        // )
             .then((response) => {
-                return response.data;
+                console.log(response.data.result);
+                return response.data.result;
             })
             .catch((error) => ({ error: JSON.stringify(error) }));
         return reponse;
@@ -30,6 +34,15 @@ class ProductRepository {
             });
         return reponse;
     }
+     getCategory(id) {
+        const reponse = getCatrgyDetails(id)
+            .then((response) => {
+                let Name = response.data.result
+                return Name.name;
+            })
+            .catch((error) => ({ error: JSON.stringify(error) }));
+        return reponse;
+    }
 
     async getBrands() {
         const reponse = await Repository.get(`${baseUrl}/brands`)
@@ -49,9 +62,9 @@ class ProductRepository {
         return reponse;
     }
 
-    async getTotalRecords() {
+     getTotalRecords() {
         // const reponse = await Repository.get(`${baseUrl}/products/count`)
-        const reponse =  Axios.get('http://localhost:8899/product/product-list')
+        const reponse =getProductList()
             .then((response) => {
                 return response.data.result;
             })
@@ -59,24 +72,30 @@ class ProductRepository {
         return reponse;
     }
 
-    async getProductsById(payload) {
-        const reponse = await Repository.get(`${baseUrl}/products/${payload}`)
+     getProductsBypagination(payload) {
+        // const reponse = await Repository.get(`${baseUrl}/products/${payload}`)
+        //     .then((response) => {
+        //         return response.data;
+        //     })
+        //     .catch((error) => ({ error: JSON.stringify(error) }));
+        // return reponse;
+        
+        const reponse =pagination(payload)
             .then((response) => {
-                return response.data;
+                return response.data.result;
             })
             .catch((error) => ({ error: JSON.stringify(error) }));
         return reponse;
     }
 
-    async getProductsByCategory(payload) {
-        const reponse = await Repository.get(
-            `${baseUrl}/product-categories?slug=${payload}`
-        )
+     getProductsByCategory(data) {
+        const reponse =getCatrgryfilter(data)
+            // await Repository.get(
+            //     `${baseUrl}/product-categories?slug=${payload}`
+            // )
             .then((response) => {
                 if (response.data) {
-                    if (response.data.length > 0) {
-                        return response.data[0];
-                    }
+                    return response.data.result;
                 } else {
                     return null;
                 }
@@ -151,12 +170,19 @@ class ProductRepository {
         return reponse;
     }
 
-    async getProductsByIds(payload) {
-        const endPoint = `${baseUrl}/products?${payload}`;
-        const reponse = await Repository.get(endPoint)
+     getProductsByCartId(payload) {
+        // const endPoint = `${baseUrl}/products?${payload}`;
+        // const reponse = await Repository.get(endPoint)
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        const config = {
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        };
+        const reponse = getUserCart(config)
             .then((response) => {
-                if (response.data && response.data.length > 0) {
-                    return response.data;
+                if (response.data && response.data.result.length > 0) {
+                    return response.data.result;
                 } else {
                     return null;
                 }

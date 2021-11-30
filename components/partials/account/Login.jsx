@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { login, logOut } from '../../../store/auth/action';
-import axios from 'axios';
-import { getToken, forgotpassword } from "components/api/url-helper";
+import { getToken, forgotpassword } from "~/components/api/url-helper";
 import { Form, Input, notification, Modal, Button } from 'antd';
 import { connect } from 'react-redux';
 
@@ -35,15 +34,10 @@ class Login extends Component {
     handleLoginSubmit = (values) => {
 
         getToken(values).then((res) => {
-            console.log(res);
-            console.log(res.data);
-            console.log(res.data.result);
-            // console.log(res.data.result.token);
-            console.log(res.data.status);
-
             if (res.data.status === 200) {
                 this.props.dispatch(login());
                 sessionStorage.setItem("token", JSON.stringify(res.data.result.token));
+                sessionStorage.setItem("currentUser", JSON.stringify(res.data.result.id));
                 notification.success({
                         message: 'Wellcome back'+" "+res.data.result.username,
                         description: 'You are login successful!',
@@ -63,7 +57,7 @@ class Login extends Component {
         this.setState({ modal2Visible });
     }
     forgetpassword = (value) => {
-        console.log(value);
+        
         try {
             forgotpassword(value).then((res) => {
                 console.log(res);
@@ -137,19 +131,24 @@ class Login extends Component {
                                                 message:
                                                     'Please input your password!',
                                             },
+                                            {
+                                                pattern:/^.{6,}$/,
+                                                message: `password contains at least Six characters`
+                                            }
                                         ]}>
                                         <Input
                                             className="form-control"
                                             type="password"
                                             placeholder="Password..."
+                                            // '
+                                            // minLength={6}
                                         />
                                     </Form.Item>
                                 </div>
                                 <div className="form-group text-right hover-blue">
-
-                                    <label  >
+                                    <p   className='form-forgot pb-3'>
                                         <a onClick={() => this.Visible(true)}>Forgot Your Password?</a>
-                                    </label>
+                                    </p>
 
                                 </div>
                                 <Modal

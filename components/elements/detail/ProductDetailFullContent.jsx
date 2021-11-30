@@ -14,12 +14,12 @@ const ProductDetailFullContent = ({ product }) => {
         if (product.is_sale === true) {
             priceView = (
                 <h4 className="ps-product__price sale">
-                    <del className="mr-2">${product.sale_price}</del>$
+                    <del className="mr-2">₹{product.sale_price}</del>$
                     {product.price}
                 </h4>
             );
         } else {
-            priceView = <h4 className="ps-product__price">${product.price}</h4>;
+            priceView = <h4 className="ps-product__price">₹{product.price}</h4>;
         }
         return (
             <div className="ps-product--detail ps-product--full-content">
@@ -31,7 +31,7 @@ const ProductDetailFullContent = ({ product }) => {
                             <ModuleProductDetailDescription product={product} />
                             <ModuleProductDetailSpecification />
                             <ModuleProductDetailSharing />
-                            <ModuleDetailActionsMobile />
+                            <ModuleDetailActionsMobile product={product}/>
                         </div>
                     </div>
                     <div className="ps-product__price-right">

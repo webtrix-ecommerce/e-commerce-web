@@ -4,8 +4,7 @@ import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 import { generateTempArray } from '~/utilities/common-helpers';
 import { ProductGroupWithCarousel } from '~/components/partials/product/ProductGroupWithCarousel';
 import useGetProducts from '~/hooks/useGetProducts';
-import Axios from 'axios';
-
+import ProductRepository from '~/repositories/ProductRepository'
 const HomeDefaultProductListing = ({ collectionSlug, title }) => {
     const [currentCollection, setCurrentCollection] = useState('new-arrivals');
     const [productItems, setProductItems] = useState([]);
@@ -35,12 +34,10 @@ const HomeDefaultProductListing = ({ collectionSlug, title }) => {
     }
 
     useEffect(() => {
-        // getProductsByCollection(collectionSlug);
-        // }, [collectionSlug]);
         let data={categoryId:collectionSlug};
-        Axios.get('http://localhost:8899/product/category-filter',{params:data}).then((res) => {
-            console.log("product",res)
-            setProductItems(res.data.result)
+        ProductRepository.getProductsByCategory(data)
+        .then((res) => {
+            setProductItems(res)
         })
     }, []);
 
@@ -83,9 +80,9 @@ const HomeDefaultProductListing = ({ collectionSlug, title }) => {
                 <div className="ps-section__header">
                     <h3>{title}</h3>
                     <ul className="ps-section__links">
-                        {sectionLinksView}
+                        {/* {sectionLinksView} */}
                         <li>
-                            <Link href={`/shop`}>
+                            <Link href={`/shop/[categoryId]`} as={`/shop/${collectionSlug}`}>
                                 <a>View All</a>
                             </Link>
                         </li>

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
+import { logOut } from '~/store/auth/action';
+import router, { Router } from 'next/router';
+import { connect, useDispatch } from 'react-redux';
 
 class MyAccount extends Component {
     constructor(props) {
@@ -8,6 +11,12 @@ class MyAccount extends Component {
     }
 
     render() {
+        const handleLogout = (e) => {
+            e.preventDefault();
+            sessionStorage.clear();
+            this.props.dispatch(logOut());
+            router.push("/");
+        };
         return (
             <section className="ps-my-account ps-page--account">
                 <div className="container">
@@ -19,7 +28,7 @@ class MyAccount extends Component {
                                         <img src="/static/img/users/3.jpg" />
                                         <figure>
                                             <figcaption>Hello</figcaption>
-                                            <p>username@gmail.com</p>
+                                            <p>{user?user.username:''}</p>
                                         </figure>
                                     </div>
                                     <div className="ps-widget__content">
@@ -45,9 +54,9 @@ class MyAccount extends Component {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/account/my-account">
-                                                    <a>Logout</a>
-                                                </Link>
+                                            <a onClick={(e) => handleLogout(e)}>
+                                                    Logout
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -90,5 +99,11 @@ class MyAccount extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        auth: state.auth.isLoggedIn
+    };
+};
 
-export default MyAccount;
+
+export default connect(mapStateToProps)  (MyAccount);

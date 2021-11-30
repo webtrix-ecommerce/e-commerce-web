@@ -7,6 +7,7 @@ import MediaRepository from '~/repositories/MediaRepository';
 import { baseUrl } from '~/repositories/Repository';
 import { getItemBySlug } from '~/utilities/product-helper';
 import Promotion from '~/components/elements/media/Promotion';
+import router from 'next/router';
 
 const HomeDefaultBanner = () => {
     const [bannerItems, setBannerItems] = useState(null);
@@ -53,14 +54,14 @@ const HomeDefaultBanner = () => {
     if (bannerItems) {
         const carouseItems = bannerItems.map((item) => (
             <div className="slide-item" key={item.id}>
-                <Link href="/shop">
-                    <a
+                {/* <Link href="/shop"> */}
+                    <a onClick={()=>router.push('/shop')}
                         className="ps-banner-item--default bg--cover"
                         style={{
                             backgroundImage: `url(${baseUrl}${item.image.url})`,
                         }}
                     />
-                </Link>
+                {/* </Link> */}
             </div>
         ));
         mainCarouselView = (

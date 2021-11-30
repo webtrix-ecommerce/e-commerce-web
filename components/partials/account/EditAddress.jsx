@@ -1,11 +1,33 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import FormEditAddress from './modules/FormEditAddress';
+import { logOut } from '~/store/auth/action';
+import router, { Router } from 'next/router';
+import { connect, useDispatch } from 'react-redux';
+import { getUser } from '~/components/api/url-helper';
 
 class EditAddress extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { user: [] };
+    };
+
+    componentDidMount() {
+
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        };
+        getUser(config).then(
+            res => {
+                this.setState({ user: res.data.result });
+            }
+        )
+
     }
 
     render() {
@@ -15,13 +37,13 @@ class EditAddress extends Component {
                 url: '/account/user-information',
                 icon: 'icon-user',
             },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            //     icon: 'icon-alarm-ringing',
+            // },
             {
-                text: 'Notifications',
-                url: '/account/notifications',
-                icon: 'icon-alarm-ringing',
-            },
-            {
-                text: 'Invoices',
+                text: 'Order History',
                 url: '/account/invoices',
                 icon: 'icon-papers',
             },
@@ -31,17 +53,23 @@ class EditAddress extends Component {
                 icon: 'icon-map-marker',
                 active: true,
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-                icon: 'icon-store',
-            },
-            {
-                text: 'Wishlist',
-                url: '/account/wishlist',
-                icon: 'icon-heart',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            //     icon: 'icon-store',
+            // },
+            // {
+            //     text: 'Wishlist',
+            //     url: '/account/wishlist',
+            //     icon: 'icon-heart',
+            // },
         ];
+        const handleLogout = (e) => {
+            e.preventDefault();
+            sessionStorage.clear();
+            this.props.dispatch(logOut());
+            router.push("/");
+        };
         return (
             <section className="ps-my-account ps-page--account">
                 <div className="container">
@@ -53,7 +81,7 @@ class EditAddress extends Component {
                                         <img src="/static/img/users/3.jpg" />
                                         <figure>
                                             <figcaption>Hello</figcaption>
-                                            <p>username@gmail.com</p>
+                                            <p>{this.state.user?this.state.user.username:''}</p>
                                         </figure>
                                     </div>
                                     <div className="ps-widget__content">
@@ -78,12 +106,9 @@ class EditAddress extends Component {
                                                 </li>
                                             ))}
                                             <li>
-                                                <Link href="/account/my-account">
-                                                    <a>
-                                                        <i className="icon-power-switch"></i>
-                                                        Logout
-                                                    </a>
-                                                </Link>
+                                            <a onClick={(e) => handleLogout(e)}>
+                                                    Logout
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -101,5 +126,11 @@ class EditAddress extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        auth: state.auth.isLoggedIn
+    };
+};
 
-export default EditAddress;
+
+export default connect(mapStateToProps) (EditAddress);

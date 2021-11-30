@@ -48,7 +48,7 @@ const FurnitureBanner = () => {
                             <h4>Version 2018</h4>
                             <h3>
                                 HAPPY SUMMER <br /> WOODEN FURNTITURE <br />{' '}
-                                SALE <strong> $599</strong>
+                                SALE <strong> ₹599</strong>
                             </h3>
                             <a className="ps-btn" href="#">
                                 Shop Now

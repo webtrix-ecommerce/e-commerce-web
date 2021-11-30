@@ -3,6 +3,7 @@ import CurrencyDropdown from './modules/CurrencyDropdown';
 import Link from 'next/link';
 import LanguageSwicher from './modules/LanguageSwicher';
 import MobileHeaderActions from './modules/MobileHeaderActions';
+import SearchHeader from './modules/SearchHeader';
 
 class HeaderMobile extends Component {
     constructor({ props }) {
@@ -57,14 +58,15 @@ class HeaderMobile extends Component {
                         action="/"
                         method="get">
                         <div className="form-group--nest">
-                            <input
+                            {/* <input
                                 className="form-control"
                                 type="text"
                                 placeholder="Search something..."
                             />
                             <button>
                                 <i className="icon-magnifier"></i>
-                            </button>
+                            </button> */}
+                             <SearchHeader />
                         </div>
                     </form>
                 </div>

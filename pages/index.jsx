@@ -1,5 +1,4 @@
-import React,{useState,useEffect} from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, Component } from 'react';
 import SiteFeatures from '~/components/partials/homepage/home-default/SiteFeatures';
 import HomeAdsColumns from '~/components/partials/homepage/home-default/HomeAdsColumns';
 import HomeAds from '~/components/partials/homepage/home-default/HomeAds';
@@ -12,29 +11,33 @@ import HomeDefaultProductListing from '~/components/partials/homepage/home-defau
 import HomeDefaultBanner from '~/components/partials/homepage/home-default/HomeDefaultBanner';
 import PageContainer from '~/components/layouts/PageContainer';
 import Product from '~/components/elements/products/Product';
+import { connect } from 'react-redux';
+import { login, logOut } from '~/store/auth/action';
+import { getCatrgrylist } from '~/components/api/url-helper';
 
 const HomepageDefaultPage = () => {
     const [data, setData] = useState([]);
-    useEffect(() => {
-        axios.get("http://localhost:8899/category/category-list").then((res) => {
-            setData(res.data.result);
-        });
-    }, []);
-    console.log("HomepageDefaultPage",data);
+useEffect(() => {
+    getCatrgrylist().then((res) => {
+        setData(res.data.result);
+    });
+}, []);
     return (
-        <PageContainer title="PANDIYAN">
+        <PageContainer title="web page">
             <main id="homepage-1">
                 <HomeDefaultBanner />
                 <SiteFeatures />
                 {/* <HomeDefaultDealOfDay collectionSlug="deal-of-the-day" /> */}
                 <HomeAdsColumns />
                 <HomeDefaultTopCategories />
-                {data.map(Product=>
-                   <HomeDefaultProductListing
-                   collectionSlug={Product.id}
-                   title={Product.name}
-               />
-                )}
+                {data?data.map(Product =>{console.log(Product);
+                  return  < div key={Product.id} >
+                        <HomeDefaultProductListing
+                            collectionSlug={Product.id}
+                            title={Product.name}
+                        />
+                    </div>}
+                ):''}
                 {/* <HomeDefaultProductListing
                     collectionSlug="consumer-electronics"
                     title="Consumer Electronics"
@@ -52,8 +55,9 @@ const HomepageDefaultPage = () => {
                 {/* <NewArrivals collectionSlug="new-arrivals-products" /> */}
                 <Newletters />
             </main>
-        </PageContainer>
+        </PageContainer >
     );
 };
 
-export default HomepageDefaultPage;
+
+export default (HomepageDefaultPage);

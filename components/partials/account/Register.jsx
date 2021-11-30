@@ -2,21 +2,17 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { login } from '../../../store/auth/action';
-import { registerUser } from "components/api/url-helper";
+import { registerUser } from "~/components/api/url-helper";
 import { Form, Input, Button, notification } from 'antd';
 import { connect } from 'react-redux';
-import axios from 'axios';
+
 
 class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
-    // componentDidMount() {
-    //     axios.get("http://localhost:8080/user").then(res =>
-    //         console.log(res.data)
-    //     )
-    // };
+   
 
     handleSubmit(values) {
 
@@ -118,7 +114,10 @@ class Register extends Component {
                                                 required: true,
                                                 message:
                                                     'Please input your password!',
-                                            },
+                                            },{
+                                                pattern:/^.{6,}$/,
+                                                message: `password contains at least Six characters`
+                                            }
                                         ]}>
                                         <Input
                                             className="form-control"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DatePicker, Form, Radio, Input, Button, notification } from 'antd';
-import axios from 'axios';
 import router from 'next/router';
+import { upDateUser } from '../api/url-helper';
 const FormChangeUserInformation = (props) => {
     const [user, setUser] = useState([]);
     console.log("prope", props);
@@ -19,7 +19,7 @@ const FormChangeUserInformation = (props) => {
         values.password = props.data.password;
         console.log(values);
         try {
-            axios.post("http://localhost:8899/update-user", values)
+            upDateUser(values)
                 .then((res) => {
                     console.log(res);
                     console.log(res.status);
@@ -155,7 +155,7 @@ const FormChangeUserInformation = (props) => {
                              
                             </div>
                         </div> */}
-                        <div className="col-sm-12">
+                        {/* <div className="col-sm-12">
                             <div className="form-group"><Form.Item
                                 name="address"
 
@@ -174,7 +174,7 @@ const FormChangeUserInformation = (props) => {
                             </Form.Item>
 
                             </div>
-                        </div>
+                        </div> */}
                         {/* <div className="col-sm-6">
                             <div className="form-group"><Form.Item
                             name="City"

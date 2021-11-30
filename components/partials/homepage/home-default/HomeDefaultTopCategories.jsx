@@ -1,11 +1,14 @@
 import React,{useState,useEffect} from 'react';
-import axios from 'axios';
+
 import Link from 'next/link';
+import router from 'next/router';
+import { getCatrgrylist } from '~/components/api/url-helper';
 
 const HomeDefaultTopCategories = () =>{
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8899/category/category-list").then((res) => {
+        getCatrgrylist()
+        .then((res) => {
             setData(res.data.result);
         });
     }, []);
@@ -15,17 +18,17 @@ const HomeDefaultTopCategories = () =>{
         <div className="ps-container">
             <h3>Top categories of the month</h3>
             <div className="row">
-                {data.map((cat,index)=>
+            {data?data.map((cat,index)=>
             <div key={index} className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category">
-                        <Link href="/shop">
-                            <a className="ps-block__overlay"></a>
-                        </Link>
+                    {/* <Link href={`/shop/[categoryId]`} as={`/shop/${cat.id}`}> */}
+                            <a onClick={() =>router.push(`/shop/${cat.id}`)}className="ps-block__overlay"></a>
+                        {/* </Link> */}
                         <img  style={{height:"178px"}} src={cat.imageURL} alt={cat.desc} />
                         <p>{cat.name}</p>
                     </div>
                 </div>
-                )}
+                ):<p>No data found</p>}
                {/*  <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category">
                         <Link href="/shop">

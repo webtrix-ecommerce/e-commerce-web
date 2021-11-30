@@ -11,7 +11,7 @@ const modalSuccess = type => {
 };
 
 const modalWarning = type => {
-    notification[type]({
+    notification.warning({
         message: 'Good bye!',
         description: 'Your account has been logged out!',
     });

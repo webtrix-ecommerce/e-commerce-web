@@ -42,7 +42,7 @@ const MartketPlace4Banner = () => {
                         <h4>Version 2018</h4>
                         <h3>
                             EXPERIENCE FEEL <br /> GREATEST WITH VITURAL <br />{' '}
-                            REALITY JUST <strong> $599</strong>
+                            REALITY JUST <strong> ₹599</strong>
                         </h3>
                         <a className="ps-btn" href="#">
                             Shop Now

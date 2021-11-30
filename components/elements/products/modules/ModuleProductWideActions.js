@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'antd';
 import useProduct from '~/hooks/useProduct';
 import useEcomerce from '~/hooks/useEcomerce';
+import  Router  from 'next/router';
 
 const ModuleProductWideActions = ({ ecomerce, product }) => {
     const { price } = useProduct();
     const { addItem } = useEcomerce();
+    const [user, setUser] = useState([]);
+    const [token, setToken] = useState(false);
     function handleAddItemToCart(e) {
+        // e.preventDefault();
+        // addItem({ id: product.id, quantity: 1 }, ecomerce.cartItems, 'cart');
         e.preventDefault();
-        addItem({ id: product.id, quantity: 1 }, ecomerce.cartItems, 'cart');
+        console.log(token);
+        if (token=== true) {
+            addItem({ productId: product.id, quantity: 1,userId:user }, ecomerce.cartItems, 'cart');
+        } else {
+           return Router.push('/account/login')
+        }
     }
-
+    useEffect(() => {
+        let data = JSON.parse(sessionStorage.getItem('currentUser'))
+            if (data) {
+                setUser(data);
+                setToken(true)
+            }else{
+                setUser(data);
+                setToken(false)
+            }
+    }, [])
     function handleAddItemToWishlist(e) {
         e.preventDefault();
         addItem({ id: product.id }, ecomerce.wishlistItems, 'wishlist');

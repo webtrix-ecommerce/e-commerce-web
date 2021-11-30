@@ -25,9 +25,10 @@ const PageContainer = ({
     let titleView;
 
     if (title !== '') {
-        titleView = process.env.title + ' | ' + title;
+        titleView = "PANDIYAN"+ ' | ' + title;
     } else {
-        titleView = process.env.title + ' | ' + process.env.titleDescription;
+        // titleView = process.env.title + ' | ' + process.env.titleDescription;
+        titleView ="PANDIYAN" + ' | ' + process.env.titleDescription;
     }
 
     return (

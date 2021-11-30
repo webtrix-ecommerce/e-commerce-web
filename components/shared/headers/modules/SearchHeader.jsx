@@ -96,7 +96,7 @@ const SearchHeader = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        Router.push(`/search?keyword=${keyword}`);
+        // Router.push(`/search?keyword=${keyword}`);
     }
 
     useEffect(() => {
@@ -137,13 +137,20 @@ const SearchHeader = () => {
             if (resultItems.length > 5) {
                 loadMoreView = (
                     <div className="ps-panel__footer text-center">
-                        <Link href="/search">
+                        <Link href="/shop">
                             <a>See all results</a>
                         </Link>
                     </div>
                 );
             }
-            productItemsView = resultItems.map((product) => (
+            productItemsView = resultItems.filter((product) => {
+                if (keyword == '') {
+                    return product;
+                } else if (product.name.toLowerCase().includes(keyword.toLowerCase())) {
+                    return product;
+                }
+            }
+            ).map((product) => (
                 <ProductSearchResult product={product} key={product.id} />
             ));
         } else {
@@ -176,9 +183,9 @@ const SearchHeader = () => {
             method="get"
             action="/"
             onSubmit={handleSubmit}>
-            <div className="ps-form__categories">
+            {/* <div className="ps-form__categories">
                 <select className="form-control">{selectOptionView}</select>
-            </div>
+            </div> */}
             <div className="ps-form__input">
                 <input
                     ref={inputEl}
@@ -193,9 +200,8 @@ const SearchHeader = () => {
             </div>
             <button onClick={handleSubmit}>Search</button>
             <div
-                className={`ps-panel--search-result${
-                    isSearch ? ' active ' : ''
-                }`}>
+                className={`ps-panel--search-result${isSearch ? ' active ' : ''
+                    }`}>
                 <div className="ps-panel__content">{productItemsView}</div>
                 {loadMoreView}
             </div>

@@ -17,12 +17,12 @@ class Notifications extends Component {
                 url: '/account/user-information',
                 icon: 'icon-user',
             },
-            {
-                text: 'Notifications',
-                url: '/account/notifications',
-                icon: 'icon-alarm-ringing',
-                active: true,
-            },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            //     icon: 'icon-alarm-ringing',
+            //     active: true,
+            // },
             {
                 text: 'Invoices',
                 url: '/account/invoices',
@@ -33,16 +33,16 @@ class Notifications extends Component {
                 url: '/account/addresses',
                 icon: 'icon-papers',
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-                icon: 'icon-papers',
-            },
-            {
-                text: 'Wishlist',
-                url: '/account/wishlist',
-                icon: 'icon-papers',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            //     icon: 'icon-papers',
+            // },
+            // {
+            //     text: 'Wishlist',
+            //     url: '/account/wishlist',
+            //     icon: 'icon-papers',
+            // },
         ];
         return (
             <section className="ps-my-account ps-page--account">

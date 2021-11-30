@@ -10,7 +10,6 @@ import ModuleDetailActionsMobile from '~/components/elements/detail/modules/Modu
 import ModuleDetailTopInformation from '~/components/elements/detail/modules/ModuleDetailTopInformation';
 
 const ProductDetailVariants = ({ product }) => {
-    console.log({ product });
     if (product !== null && typeof product !== 'Array') {
         if (product.variants.length > 0) {
             return (

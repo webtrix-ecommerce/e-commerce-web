@@ -1,31 +1,47 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import ProductOnCart from '~/components/elements/products/ProductOnCart';
 import useEcomerce from '~/hooks/useEcomerce';
 import { calculateAmount } from '~/utilities/ecomerce-helpers';
+import ProductRepository from '~/repositories/ProductRepository';
+import router from 'next/router';
 
 const MiniCart = ({ ecomerce }) => {
-    const { products, removeItem, removeItems, getProducts } = useEcomerce();
+    const {
+        // products,
+        removeItem, removeItems, getProducts } = useEcomerce();
 
+    const [products, setProducts] = useState([]);
     function handleRemoveItem(e, productId) {
         e.preventDefault();
-        removeItem({ id: productId }, ecomerce.cartItems, 'cart');
+        console.log("selectedItem", productId);
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+        const config = {
+            token: data,
+            data: { cartId: productId }
+        };
+        removeItem(config, ecomerce.cartItems, 'cart');
+        getproducts();
     }
-
+    const getproducts = async () => {
+        const Products = await ProductRepository.getProductsByCartId();
+        setProducts(Products);
+    }
     useEffect(() => {
-        getProducts(ecomerce.cartItems, 'cart');
+        getproducts();
     }, [ecomerce]);
-
     let cartItemsView;
     if (products && products.length > 0) {
+
         const amount = calculateAmount(products);
         const productItems = products.map((item) => {
             return (
                 <ProductOnCart product={item} key={item.id}>
                     <a
                         className="ps-product__remove"
-                        onClick={(e) => handleRemoveItem(e)}>
+                        onClick={(e) => handleRemoveItem(e, item.id)}>
                         <i className="icon-cross"></i>
                     </a>
                 </ProductOnCart>
@@ -37,15 +53,15 @@ const MiniCart = ({ ecomerce }) => {
                 <div className="ps-cart__footer">
                     <h3>
                         Sub Total:
-                        <strong>${amount ? amount : 0}</strong>
+                        <strong>₹{amount ? amount : 0}</strong>
                     </h3>
                     <figure>
-                        <Link href="/account/shopping-cart">
-                            <a className="ps-btn">View Cart</a>
-                        </Link>
-                        <Link href="/account/checkout">
-                            <a className="ps-btn">Checkout</a>
-                        </Link>
+                        {/* <Link href="/account/shopping-cart"> */}
+                            <a onClick={()=>router.push('/account/shopping-cart')} className="ps-btn">View Cart</a>
+                        {/* </Link> */}
+                        {/* <Link href="/account/checkout"> */}
+                            <a onClick={()=>router.push('/account/checkout')} className="ps-btn">Checkout</a>
+                        {/* </Link> */}
                     </figure>
                 </div>
             </div>
@@ -62,7 +78,7 @@ const MiniCart = ({ ecomerce }) => {
 
     return (
         <div className="ps-cart--mini">
-            <a className="header__extra" href="#">
+            <a className="header__extra" >
                 <i className="icon-bag2"></i>
                 <span>
                     <i>{products ? products.length : 0}</i>

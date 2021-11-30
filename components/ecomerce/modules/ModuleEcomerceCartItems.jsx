@@ -1,48 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import useEcomerce from '~/hooks/useEcomerce';
 import { Result } from 'antd';
 import ProductCart from '~/components/elements/products/ProductCart';
-
-const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
+import { DeleteOutlined } from '@ant-design/icons'
+import ProductRepository from '~/repositories/ProductRepository';
+const ModuleEcomerceCartItems = ({ ecomerce,
+    //  cartItems 
+}) => {
     const { increaseQty, decreaseQty, removeItem } = useEcomerce();
-
+    const [cartItems, setProducts] = useState([]);
+    const getproducts = async () => {
+        const Products = await ProductRepository.getProductsByCartId();
+        setProducts(Products);
+    }
+    useEffect(() => {
+        getproducts();
+    }, [ecomerce]);
     function handleRemoveItem(e, productId) {
         e.preventDefault();
-        removeItem({ id: productId }, ecomerce.cartItems, 'cart');
+        e.preventDefault();
+        console.log("selectedItem", productId);
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+        const config = {
+            token: data,
+            data: { cartId: productId }
+        };
+        removeItem(config, ecomerce.cartItems, 'cart');
     }
-
     function handleIncreaseItemQty(e, productId) {
         e.preventDefault();
-        increaseQty({ id: productId }, ecomerce.cartItems);
+        increaseQty(productId, ecomerce.cartItems);
     }
-
     function handleDecreaseItemQty(e, productId) {
         e.preventDefault();
-        decreaseQty({ id: productId }, ecomerce.cartItems);
+        decreaseQty(productId, ecomerce.cartItems);
     }
-
     // View
     let cartItemsViews;
     if (cartItems && cartItems.length > 0) {
         const items = cartItems.map((item) => (
             <tr key={item.id}>
-                <td>
-                    <ProductCart product={item} />
+                <td key={item.id}>
+                    <ProductCart product={item.productModel} />
                 </td>
                 <td data-label="price" className="price">
-                    ${item.price}
+                    ₹{item.productModel.price}
                 </td>
                 <td data-label="quantity">
                     <div className="form-group--number">
                         <button
                             className="up"
-                            onClick={(e) => handleIncreaseItemQty(e, item.id)}>
+                            onClick={(e) => handleIncreaseItemQty(e, item.productModel.id)}>
                             +
                         </button>
                         <button
                             className="down"
-                            onClick={(e) => handleDecreaseItemQty(e, item.id)}>
+                            onClick={(e) => handleDecreaseItemQty(e, item.productModel.id)}>
                             -
                         </button>
                         <input
@@ -54,11 +69,12 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
                     </div>
                 </td>
                 <td data-label="total">
-                    <strong>${(item.price * item.quantity).toFixed(2)}</strong>
+                    <strong>₹{(item.productModel.price * item.quantity).toFixed(2)}</strong>
                 </td>
-                <td>
-                    <a href="#" onClick={(e) => handleRemoveItem(e, item.id)}>
-                        <i className="icon-cross"></i>
+                <td className='form-forgot text-center h4'>
+                    <a onClick={(e) => handleRemoveItem(e, item.id)}>
+
+                        <DeleteOutlined />
                     </a>
                 </td>
             </tr>

@@ -23,23 +23,23 @@ const ShoppingCart = ({ source }) => {
                     <ModuleEcomerceCartItems cartItems={cartItems} />
 
                     <div className="ps-section__cart-actions">
-                        <Link href="/shop">
-                            <a>
+                        {/* <Link href="/shop"> */}
+                            <a onClick={()=>router.push('/')}>
                                 <i className="icon-arrow-left mr-2"></i>
                                 Back to Shop
                             </a>
-                        </Link>
+                        {/* </Link> */}
                     </div>
                 </div>
                 <div className="ps-section__footer">
                     <div className="row justify-content-end">
                         <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                             <ModuleCartSummary source={cartItems} />
-                            <Link href="/account/checkout">
-                                <a className="ps-btn ps-btn--fullwidth">
+                            {/* <Link href="/account/checkout"> */}
+                                <a onClick={()=>router.push('/account/checkout')} className="ps-btn ps-btn--fullwidth">
                                     Proceed to checkout
                                 </a>
-                            </Link>
+                            {/* </Link> */}
                         </div>
                     </div>
                 </div>

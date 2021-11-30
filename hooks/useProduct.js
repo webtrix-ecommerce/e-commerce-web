@@ -51,10 +51,9 @@ export default function useProduct() {
                         <>
                             <LazyLoad>
                                 <img
-                                    style={{height:" 200px"}}
                                     src={payload.imageURL}
-                                    // src={getImageURL(payload.thumbnail)}
-                                    alt={getImageURL(payload.thumbnail)}
+                                    // style={{height:" 200px"}}
+                                    alt={getImageURL(payload.imageURL)}
                                 />
                             </LazyLoad>
                         </>
@@ -64,7 +63,7 @@ export default function useProduct() {
         },
         thumbnailImage: (payload) => {
             if (payload) {
-                if (payload.imageURL) {
+                if (payload.thumbnail) {
                     return (
                         <>
                             <LazyLoad>
@@ -84,10 +83,10 @@ export default function useProduct() {
             if (payload.sale_price) {
                 view = (
                     <p className="ps-product__price sale">
-                        <span>$</span>
+                        <span>₹</span>
                         {formatCurrency(payload.sale_price)}
                         <del className="ml-2">
-                            <span>$</span>
+                            <span>₹</span>
                             {formatCurrency(payload.price)}
                         </del>
                     </p>
@@ -95,7 +94,7 @@ export default function useProduct() {
             } else {
                 view = (
                     <p className="ps-product__price">
-                        <span>$</span>
+                        <span>₹</span>
                         {formatCurrency(payload.price)}
                     </p>
                 );

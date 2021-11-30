@@ -18,14 +18,22 @@ const ModuleProductHasVariants = ({ ecomerce, currency, product }) => {
     const [selectedSize, setSelectedSize] = useState(null);
     const [sizeItems, setSizeItems] = useState(null);
     const { addItem } = useEcomerce();
-
+    const [user, setUser] = useState([]);
+    
+    useEffect(() => {
+        let data = JSON.parse(sessionStorage.getItem('currentUser'));
+                setUser(data);
+                setSelectedVariant(product.variants[0]);
+            }, [product]);
     function handleAddItemToCart(e) {
         e.preventDefault();
-        addItem(
-            { id: product.id, quantity: quantity },
-            ecomerce.cartItems,
-            'cart'
-        );
+        e.preventDefault();
+        console.log(user);
+        if (user) {
+            addItem({ productId: product.id, quantity: 1,userId:user }, ecomerce.cartItems, 'cart');
+        } else {
+           return Router.push('/account/login')
+        }
     }
 
     function handleBuynow(e) {
@@ -100,9 +108,7 @@ const ModuleProductHasVariants = ({ ecomerce, currency, product }) => {
         }
     }
 
-    useEffect(() => {
-        setSelectedVariant(product.variants[0]);
-    }, [product]);
+    
 
     let variants, sizeSelectionArea, priceArea, thumbnailArea;
     if (selectedVariant) {

@@ -1,31 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import useEcomerce from '~/hooks/useEcomerce';
 import { calculateAmount } from '~/utilities/ecomerce-helpers';
-
+import ProductRepository from '~/repositories/ProductRepository';
 const ModulePaymentOrderSummary = ({ ecomerce, shipping }) => {
-    const { products, getProducts } = useEcomerce();
-
+    // const {  getProducts } = useEcomerce();
+    const [products, setProducts] = useState([]);
     useEffect(() => {
-        if (ecomerce.cartItems) {
             getProducts(ecomerce.cartItems, 'cart');
-        }
     }, [ecomerce]);
-
+    const getProducts = async () => {
+        const Products = await ProductRepository.getProductsByCartId();
+        setProducts(Products);
+    }
     // view
     let listItemsView, shippingView, totalView;
     let amount;
     if (products && products.length > 0) {
         amount = calculateAmount(products);
         listItemsView = products.map((item) => (
-            <Link href="/" key={item.id}>
+            <Link href="/product/[pid]" as={`/product/${item.productModel.id}`} key={item.id}>
                 <a>
                     <strong>
-                        {item.title}
+                        {item.productModel.name}
                         <span>x{item.quantity}</span>
                     </strong>
-                    <small>${item.quantity * item.price}</small>
+                    <small>₹{item.quantity * item.productModel.price}.00</small>
                 </a>
             </Link>
         ));
@@ -37,7 +38,7 @@ const ModulePaymentOrderSummary = ({ ecomerce, shipping }) => {
             <figure>
                 <figcaption>
                     <strong>Shipping Fee</strong>
-                    <small>$20.00</small>
+                    <small>₹20.00</small>
                 </figcaption>
             </figure>
         );
@@ -45,7 +46,7 @@ const ModulePaymentOrderSummary = ({ ecomerce, shipping }) => {
             <figure className="ps-block__total">
                 <h3>
                     Total
-                    <strong>${parseInt(amount) + 20}.00</strong>
+                    <strong>₹{parseInt(amount) + 20}.00</strong>
                 </h3>
             </figure>
         );
@@ -54,7 +55,7 @@ const ModulePaymentOrderSummary = ({ ecomerce, shipping }) => {
             <figure className="ps-block__total">
                 <h3>
                     Total
-                    <strong>${parseInt(amount)}.00</strong>
+                    <strong>₹{parseInt(amount)}.00</strong>
                 </h3>
             </figure>
         );
@@ -72,7 +73,7 @@ const ModulePaymentOrderSummary = ({ ecomerce, shipping }) => {
                 <figure>
                     <figcaption>
                         <strong>Subtotal</strong>
-                        <small>${amount}</small>
+                        <small>₹{amount}</small>
                     </figcaption>
                 </figure>
                 {shippingView}

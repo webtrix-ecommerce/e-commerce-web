@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
+import { getUser } from '~/components/api/url-helper';
 import AccountMenuSidebar from './modules/AccountMenuSidebar';
 import TableInvoices from './modules/TableInvoices';
 
 class Invoices extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
-    }
+        this.state = { user:[]};
+    };
+    componentDidMount()  {
 
+        let data = JSON.parse(sessionStorage.getItem('token'))
+        console.log(data);
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        };
+        getUser(config).then(
+            res => {
+                this.setState({user:res.data.result});
+            }
+        )
+
+    }
     render() {
         const accountLinks = [
             {
@@ -15,13 +32,13 @@ class Invoices extends Component {
                 url: '/account/user-information',
                 icon: 'icon-user',
             },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            //     icon: 'icon-alarm-ringing',
+            // },
             {
-                text: 'Notifications',
-                url: '/account/notifications',
-                icon: 'icon-alarm-ringing',
-            },
-            {
-                text: 'Invoices',
+                text: 'Order History',
                 url: '/account/invoices',
                 icon: 'icon-papers',
                 active: true,
@@ -31,16 +48,16 @@ class Invoices extends Component {
                 url: '/account/addresses',
                 icon: 'icon-papers',
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-                icon: 'icon-papers',
-            },
-            {
-                text: 'Wishlist',
-                url: '/account/wishlist',
-                icon: 'icon-papers',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            //     icon: 'icon-papers',
+            // },
+            // {
+            //     text: 'Wishlist',
+            //     url: '/account/wishlist',
+            //     icon: 'icon-papers',
+            // },
         ];
         return (
             <section className="ps-my-account ps-page--account">
@@ -55,7 +72,7 @@ class Invoices extends Component {
                             <div className="ps-page__content">
                                 <div className="ps-section--account-setting">
                                     <div className="ps-section__header">
-                                        <h3>Invoices</h3>
+                                        <h3>Order History</h3>
                                     </div>
                                     <div className="ps-section__content">
                                         <TableInvoices />

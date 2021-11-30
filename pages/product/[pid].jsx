@@ -12,7 +12,7 @@ import HeaderDefault from '~/components/shared/headers/HeaderDefault';
 import PageContainer from '~/components/layouts/PageContainer';
 import Newletters from '~/components/partials/commons/Newletters';
 import HeaderMobileProduct from '~/components/shared/header-mobile/HeaderMobileProduct';
-import Axios from 'axios';
+import { getProductDetails } from '~/components/api/url-helper';
 const ProductDefaultPage = () => {
     const router = useRouter();
     const  ID  = router.query;
@@ -24,7 +24,7 @@ const ProductDefaultPage = () => {
         console.log(ID.pid);
         // const responseData = await ProductRepository.getProductsById(pid);
         let data={productId:ID.pid}
-        Axios.get('http://localhost:8899/product/product-details',{params: data}).then((responseData)=>{
+        getProductDetails(data).then((responseData)=>{
              console.log("responseData",responseData);
         if (responseData) {
             setProduct(responseData.data.result);
@@ -92,12 +92,12 @@ const ProductDefaultPage = () => {
                             <ProductWidgets />
                         </div>
                     </div>
-
+{/* 
                     <CustomerBought
                         layout="fullwidth"
                         collectionSlug="deal-of-the-day"
                     />
-                    <RelatedProduct collectionSlug="shop-recommend-items" />
+                    <RelatedProduct collectionSlug="shop-recommend-items" /> */}
                 </div>
             </div>
             <Newletters />

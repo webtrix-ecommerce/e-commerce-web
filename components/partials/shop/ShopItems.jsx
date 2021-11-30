@@ -8,36 +8,58 @@ import { useRouter } from 'next/router';
 import { generateTempArray } from '~/utilities/common-helpers';
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 import useGetProducts from '~/hooks/useGetProducts';
+import CustomPagination from '~/components/elements/common/CustomPagination';
 
 const ShopItems = ({ columns = 4, pageSize = 12 }) => {
     const Router = useRouter();
     const { page } = Router.query;
     const { query } = Router;
     const [listView, setListView] = useState(true);
-    const [total, setTotal] = useState(0);
+    const [total, setTotal] = useState([]);
+    const [count, setCount] = useState(0);
+    const [pageNo, setPageNo] = useState(0);
     const [productItems, setProductItems] = useState();
     const [classes, setClasses] = useState(
         'col-xl-4 col-lg-4 col-md-3 col-sm-6 col-6'
     );
-
-    const {  loading, getProducts } = useGetProducts();
-
+    const { loading, getProducts } = useGetProducts();
     function handleChangeViewMode(e) {
         e.preventDefault();
         setListView(!listView);
     }
-
-    function handlePagination(page, pageSize) {
-        Router.push(`/shop?page=${page}`);
-    }
-
-    async function getTotalRecords(params) {
-        const responseData = await ProductRepository.getTotalRecords();
+    const handleNextPage = async (e) => {
+        e.preventDefault();
+        let Num = pageNo + 1;
+        const responseData = await ProductRepository.getProductsBypagination(Num);
         if (responseData) {
-            setTotal(responseData.length);
-            setProductItems(responseData);
+            setPageNo(responseData.number);
+            setProductItems(responseData.content);
         }
     }
+    const handlePagination = async (page) => {
+        // Router.push(`/shop?page=${page}`);
+        const responseData = await ProductRepository.getProductsBypagination(page);
+        if (responseData) {
+            setPageNo(responseData.number);
+            setProductItems(responseData.content);
+        }
+    }
+    async function getTotalRecords(payload) {
+
+        const responseData = await ProductRepository.getProductsBypagination(0);
+        if (responseData) {
+            console.log(responseData);
+            const value = responseData.totalPages;
+            setPageNo(responseData.number);
+            if (count === 0) {
+                for (let index = 0; index < value; index++) {
+                    total.push(index);
+                }
+            }
+            setProductItems(responseData.content);
+        }
+    }
+
 
     function handleSetColumns() {
         switch (columns) {
@@ -58,7 +80,6 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
                 setClasses('col-xl-4 col-lg-4 col-md-3 col-sm-6 col-6');
         }
     }
-
     useEffect(() => {
         let params;
         if (query) {
@@ -76,6 +97,8 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
                 _limit: pageSize,
             };
         }
+        let counts = count + 1;
+        setCount(counts)
         getTotalRecords();
         getProducts(params);
         handleSetColumns();
@@ -84,26 +107,26 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
     // Views
     let productItemsView;
     // if (!loading) {
-        if (productItems && productItems.length > 0) {
-            if (listView) {
-                const items = productItems.map((item) => (
-                    <div className={classes} key={item.id}>
-                        <Product product={item} />
-                    </div>
-                ));
-                productItemsView = (
-                    <div className="ps-shop-items">
-                        <div className="row">{items}</div>
-                    </div>
-                );
-            } else {
-                productItemsView = productItems.map((item) => (
-                    <ProductWide product={item} />
-                ));
-            }
+    if (productItems && productItems.length > 0) {
+        if (listView) {
+            const items = productItems.map((item) => (
+                <div className={classes} key={item.id}>
+                    <Product product={item} />
+                </div>
+            ));
+            productItemsView = (
+                <div className="ps-shop-items">
+                    <div className="row">{items}</div>
+                </div>
+            );
         } else {
-            productItemsView = <p>No product found.</p>;
+            productItemsView = productItems.map((item) => (
+                <ProductWide product={item} />
+            ));
         }
+    } else {
+        productItemsView = <p>No product found.</p>;
+    }
     // }
     //  else {
     //     const skeletonItems = generateTempArray(12).map((item) => (
@@ -113,12 +136,11 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
     //     ));
     //     productItemsView = <div className="row">{skeletonItems}</div>;
     // }
-
     return (
         <div className="ps-shopping">
             <div className="ps-shopping__header">
                 <p>
-                    <strong className="mr-2">{total}</strong>
+                    {/* <strong className="mr-2">{total}</strong> */}
                     Products found
                 </p>
                 <div className="ps-shopping__actions">
@@ -147,14 +169,33 @@ const ShopItems = ({ columns = 4, pageSize = 12 }) => {
             <div className="ps-shopping__content">{productItemsView}</div>
             <div className="ps-shopping__footer text-center">
                 <div className="ps-pagination">
-                    <Pagination
-                        total={total - 1}
+                    {/* <Pagination
+                        total={total - 5}
                         pageSize={pageSize}
                         responsive={true}
                         showSizeChanger={false}
                         current={page !== undefined ? parseInt(page) : 1}
                         onChange={(e) => handlePagination(e)}
-                    />
+                    /> */}
+                    <div className="ps-pagination">
+                        <ul className="pagination">
+                            {
+                                total.map((items) => {
+                                    let item = items + 1;
+                                    return <li key={item} className={pageNo === items ? 'active' : ''}>
+                                        <a href="#" onClick={() => handlePagination(items)}>{item}</a>
+                                    </li>
+                                }
+                                )
+                            }
+                            <li>
+                                <a href="#" onClick={(e) => handleNextPage(e)}>
+                                    Next Page
+                                    <i className="icon-chevron-right" ></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

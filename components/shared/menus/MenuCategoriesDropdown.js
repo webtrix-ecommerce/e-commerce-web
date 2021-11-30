@@ -1,14 +1,11 @@
-import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-// import menuData from '~/public/static/data/menu.json';
-// import Menu from '~/components/elements/menu/Menu';
 import { getCatrgrylist } from '../../api/url-helper';
-import axios from 'axios';
+import Link from 'next/link';
 
 const MenuCategoriesDropdown = () => {
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8899/category/category-list").then((res) => {
+        getCatrgrylist().then((res) => {
             setData(res.data.result);
         });
     }, []);
@@ -22,10 +19,12 @@ const MenuCategoriesDropdown = () => {
                 return (
                     <li key={item.name}>
                         {/* <Link href={item.url}> */}
-                        <a>
+                        <Link href={`/shop/[categoryId]`} as={`/shop/${item.id}`}>
+                        <a >
                             {/* {item.icon && <i className={item.icon}></i>} */}
                             {item.name}
                         </a>
+                        </Link>
                         {/* </Link> */}
                     </li>
                 );

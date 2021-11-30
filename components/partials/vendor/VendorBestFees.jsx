@@ -14,7 +14,7 @@ const VendorBestFrees = () => (
                 </h5>
                 <div className="ps-section__numbers">
                     <figure>
-                        <h3>$0</h3>
+                        <h3>₹0</h3>
                         <span>List Fee</span>
                     </figure>
                     <figure>

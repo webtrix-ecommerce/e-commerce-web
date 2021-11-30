@@ -53,7 +53,7 @@ const Wishlist = ({ ecomerce }) => {
                                 <td>
                                     <ProductCart product={product} />
                                 </td>
-                                <td className="price">${product.price}</td>
+                                <td className="price">₹{product.price}</td>
                                 <td>{product.vendor}</td>
                                 <td>
                                     <a

@@ -1,12 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import Link from 'next/link';
-import axios from 'axios';
+import { getCatrgrylist } from '~/components/api/url-helper';
 // import shop_data from '~/public/static/data/shopCategories';
 
 const ShopCategories = () => {
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8899/category/category-list").then((res) => {
+        getCatrgrylist()
+        .then((res) => {
             setData(res.data.result);
         });
     }, []);

@@ -31,13 +31,13 @@ const ShopDefaultPage = () => {
                     <ShopBanner />
                     <ShopBrands />
                     {/* <ShopCategories /> */}<HomeDefaultTopCategories />
-                    <div className="ps-layout--shop">
-                        <div className="ps-layout__left">
+                    <div className="ps-layout--shop container">
+                        {/* <div className="ps-layout__left">
                             <WidgetShopCategories />
                             <WidgetShopBrands />
                             <WidgetShopFilterByPriceRange />
-                        </div>
-                        <div className="ps-layout__right">
+                        </div> */}
+                        {/* <div className="ps-layout__right"> */}
                             {/* <ProductGroupByCarousel
                                 collectionSlug="shop-best-seller-items"
                                 title="Best Sale Items"
@@ -47,7 +47,7 @@ const ShopDefaultPage = () => {
                                 title="Recommended Items"
                             /> */}
                             <ShopItems columns={6} pageSize={18} />
-                        </div>
+                        {/* </div> */}
                     </div>
                 </div>
             </div>
